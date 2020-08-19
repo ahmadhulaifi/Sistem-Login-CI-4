@@ -2,32 +2,31 @@
 
 <?= $this->section('content'); ?>
 
+
 <div class="limiter">
     <div class="container-login100">
-        <div class="wrap-login100 register">
-            <div class="col-md-12">
+        <div class="wrap-login100 reg">
+            <div class="col">
                 <center>
-
                     <div class="login100-pic js-tilt p-b-20" data-tilt>
                         <img src="<?= base_url(); ?>/asset/images/logo_fisiart.png" alt="IMG" width="200">
                     </div>
-
                 </center>
-
-                <form class="validate-form">
+                <p id="listError"></p>
+                <form class="validate-form register">
+                    <?= csrf_field(); ?>
                     <span class="login100-form-title">
                         <?= $halaman; ?>
                     </span>
-
-                    <div class="wrap-input100 validate-input" data-validate="Nama tidak boleh kosong">
-                        <input class="input100" type="text" name="nama" placeholder="Nama lengkap">
+                    <div class="wrap-input100 validate-input">
+                        <input class="input100" type="text" name="nama" id="nama" placeholder="Nama lengkap">
                         <span class="focus-input100"></span>
                         <span class="symbol-input100">
                             <i class="fa fa-user" aria-hidden="true"></i>
                         </span>
                     </div>
-                    <div class="wrap-input100 validate-input" data-validate="Email valid yang dibutuhkan: abc@gmail.com">
-                        <input class="input100" type="text" name="email" placeholder="Email">
+                    <div class="wrap-input100 validate-input">
+                        <input class="input100" type="text" name="email" id="email" placeholder="Email">
                         <span class="focus-input100"></span>
                         <span class="symbol-input100">
                             <i class="fa fa-envelope" aria-hidden="true"></i>
@@ -36,8 +35,8 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="wrap-input100 validate-input" data-validate="Password tidak boleh kosong">
-                                <input class="input100" type="password" name="pass" placeholder="Password">
+                            <div class="wrap-input100 validate-input">
+                                <input class="input100" type="password" id="password" name="password" placeholder="Password">
                                 <span class="focus-input100"></span>
                                 <span class="symbol-input100">
                                     <i class="fa fa-lock" aria-hidden="true"></i>
@@ -46,8 +45,8 @@
                         </div>
                         <div class="col-md-6">
 
-                            <div class="wrap-input100 validate-input" data-validate="Password tidak boleh kosong">
-                                <input class="input100" type="password" name="passRepeat" placeholder="Ulangi Password">
+                            <div class="wrap-input100 validate-input">
+                                <input class="input100" type="password" name="passwordRepeat" id="passwordRepeat" placeholder="Ulangi Password">
                                 <span class="focus-input100"></span>
                                 <span class="symbol-input100">
                                     <i class="fa fa-lock" aria-hidden="true"></i>
@@ -71,8 +70,11 @@
                         </a>
                     </div>
                 </form>
+
             </div>
+
         </div>
+
     </div>
 </div>
 

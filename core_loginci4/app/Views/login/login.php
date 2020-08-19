@@ -8,22 +8,38 @@
             <div class="login100-pic js-tilt" data-tilt>
                 <img src="<?= base_url(); ?>/asset/images/logo_fisiart.png" alt="IMG">
             </div>
-
-            <form class="login100-form validate-form">
+            <form class="login100-form validate-form login">
+                <?= csrf_field(); ?>
                 <span class="login100-form-title">
                     <?= $halaman; ?>
                 </span>
+                <?php if (session()->getFlashdata('pesan')) : ?>
+                    <center>
+                        <div class="alert alert-success" role="alert">
+                            <?= session()->getFlashdata('pesan'); ?>
+                        </div>
+                    </center>
 
-                <div class="wrap-input100 validate-input" data-validate="Email valid yang dibutuhkan: abc@gmail.com">
-                    <input class="input100" type="text" name="email" placeholder="Email">
+                <?php endif; ?>
+                <?php if (session()->getFlashdata('pesanError')) : ?>
+                    <center>
+                        <div class="alert alert-danger" role="alert">
+                            <?= session()->getFlashdata('pesanError'); ?>
+                        </div>
+                    </center>
+
+                <?php endif; ?>
+
+                <div class="wrap-input100 validate-input">
+                    <input class="input100" type="text" id="email" name="email" placeholder="Email">
                     <span class="focus-input100"></span>
                     <span class="symbol-input100">
                         <i class="fa fa-envelope" aria-hidden="true"></i>
                     </span>
                 </div>
 
-                <div class="wrap-input100 validate-input" data-validate="Password tidak boleh kosong">
-                    <input class="input100" type="password" name="pass" placeholder="Password">
+                <div class="wrap-input100 validate-input">
+                    <input class="input100" type="password" name="password" id="password" placeholder="Password">
                     <span class="focus-input100"></span>
                     <span class="symbol-input100">
                         <i class="fa fa-lock" aria-hidden="true"></i>

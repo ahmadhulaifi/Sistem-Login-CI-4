@@ -7,11 +7,11 @@ use CodeIgniter\Model;
 class LoginModel extends Model
 {
     protected $table      = 'user';
-    protected $primaryKey = 'id_user';
+    protected $useTimestamps = true;
+    protected $allowedFields = ['nama', 'email', 'password', 'role_id', 'is_active', 'image'];
 
-    // protected $allowedFields = ['name', 'email'];
+    // protected $primaryKey = 'id_user';
 
-    // protected $useTimestamps = false;
     // protected $createdField  = 'created_at';
     // protected $updatedField  = 'updated_at';
     // protected $deletedField  = 'deleted_at';
@@ -19,4 +19,5 @@ class LoginModel extends Model
     // protected $validationRules    = [];
     // protected $validationMessages = [];
     // protected $skipValidation     = false;
+
 }

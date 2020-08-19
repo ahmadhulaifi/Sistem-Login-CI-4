@@ -36,6 +36,8 @@ $routes->setAutoRoute(true);
 $routes->get('/', 'Login::index');
 $routes->get('/login/reg', 'Login::register');
 $routes->get('/login/lupa', 'Login::lupaPassword');
+$routes->post('/login/save', 'Login::saveRegister');
+$routes->post('/login/cek', 'Login::cekLogin');
 
 /**
  * --------------------------------------------------------------------
