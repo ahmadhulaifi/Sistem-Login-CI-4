@@ -20,4 +20,16 @@ class LoginModel extends Model
     // protected $validationMessages = [];
     // protected $skipValidation     = false;
 
+    public function cekLog($email)
+    {
+        $query = $this->table($this->table)->where('email', $email)->countAll();
+
+        if ($query > 0) {
+            $hasil = $this->table($this->table)->where('email', $email)->limit(1)->get()->getRowArray();
+        } else {
+            $hasil = '';
+        }
+
+        return $hasil;
+    }
 }

@@ -39,6 +39,8 @@ $routes->get('/login/lupa', 'Login::lupaPassword');
 $routes->post('/login/save', 'Login::saveRegister');
 $routes->post('/login/cek', 'Login::cekLogin');
 
+$routes->get('/user', 'User::index');
+$routes->get('/logout', 'Login::logout');
 /**
  * --------------------------------------------------------------------
  * Additional Routing

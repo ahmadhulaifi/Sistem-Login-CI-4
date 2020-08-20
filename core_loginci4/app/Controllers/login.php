@@ -58,31 +58,40 @@ class Login extends BaseController
             // validasi sukses
             $email = $this->request->getVar('email');
             // $password = password_hash($this->request->getVar('password'), PASSWORD_DEFAULT);
-            $password = md5($this->request->getVar('password'));
+            $password = $this->request->getVar('password');
 
-            $data = [
-                'email' => $email,
-                // 'password' =>  password_hash($this->request->getVar('password'), PASSWORD_DEFAULT)
-                'password' => $password
-            ];
+            // $data = [
+            //     'email' => $email,
+            //     'password' => $password
+            // ];
 
-            $user = $this->loginModel->where('email', $email)->where('password', $password)->findAll();
-            $jumlah = $this->loginModel->where('email', $email)->where('password', $password)->countAllResults();
+            $ceklog = $this->loginModel->cekLog($email);
 
-            if ($jumlah > 0) {
-                // user ada
-                $data = [
-                    'success' => true,
-                    'responce' => 'yes',
-                    'jumlah' => $jumlah,
-                    'user' => $user
-                ];
+            if (password_verify($password, $ceklog['password'])) {
+                // jika user sudah verifikasi
+                if ($ceklog['is_active'] == 1) {
+                    $data = [
+                        'success' => true,
+                        'responce' => 'yes',
+                    ];
+                    $user = [
+                        'email' => $ceklog['email'],
+                        'nama' => $ceklog['nama'],
+                        'role_id' => $ceklog['role_id'],
+                        'image' => $ceklog['image'],
+                        'created_at' => $ceklog['created_at'],
+                        'updated_at' => $ceklog['updated_at']
+                    ];
+                    session()->set($user);
+                } else {
+                    session()->setFlashdata('pesanError', 'Email belum verifikasi');
+                    $data['success'] = true;
+                    $data['responce'] = 'not';
+                }
             } else {
                 session()->setFlashdata('pesanError', 'Email tidak terdaftar / tidak sesuai');
                 $data['success'] = true;
                 $data['responce'] = 'not';
-                $data['jumlah'] = $jumlah;
-                $data['user'] = $user;
             }
         }
 
@@ -153,14 +162,14 @@ class Login extends BaseController
             $data = [
                 'nama' => $this->request->getVar('nama'),
                 'email' => $this->request->getVar('email'),
-                'password' => md5($this->request->getVar('password')),
+                'password' => password_hash($this->request->getVar('password'), PASSWORD_DEFAULT),
                 'role_id' => 1,
-                'is_active' => 1,
-                'image' => 'default.jpg'
+                'is_active' => 0,
+                'image' => 'default.png'
             ];
 
             $save = $this->loginModel->save($data);
-            session()->setFlashdata('pesan', 'Register berhasil<br>silahkan login.');
+            session()->setFlashdata('pesan', 'Register berhasil<br>silahkan verifikasi di email.');
             $data = [
                 'success' => true,
                 'data' => $save,
@@ -181,5 +190,15 @@ class Login extends BaseController
         ];
 
         return view('login/lupa', $data);
+    }
+
+    public function logout()
+    {
+        // session()->destroy();
+        unset($_SESSION['email']);
+        unset($_SESSION['nama']);
+        unset($_SESSION['role_id']);
+        session()->setFlashdata('pesan', 'Anda berhasil logout.');
+        return redirect()->to(base_url('/login'));
     }
 }

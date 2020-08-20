@@ -87,24 +87,19 @@
             });
 
             $('.login').on('submit', function() {
-                // let email = $("input[name='email']").val();
-                // let password = $("input[name='password']").val();
                 $.ajax({
                     type: "POST",
                     url: "<?= base_url(); ?>/login/cek",
                     dataType: "JSON",
                     data: $(this).serialize(),
-                    // data: {
-                    //     email: email,
-                    //     password: password
-                    // },
+
                     success: function(data) {
                         if (data.success == true) {
                             if (data.responce == 'not') {
                                 window.location = '<?= base_url('/login'); ?>'
-                                // alert('gagal');
                             } else {
-                                alert('berhasil');
+                                window.location = '<?= base_url('/user'); ?>'
+                                // alert('berhasil');
                             }
                         } else {
                             if (data.validation['email'] !== '') {
