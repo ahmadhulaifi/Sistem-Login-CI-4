@@ -36,18 +36,39 @@
         <!-- navbar -->
         <?= $this->include('layout/navbar_user'); ?>
 
-        <!-- isi content -->
-        <?= $this->renderSection('content'); ?>
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0 text-dark"><?= $title; ?></h1>
+                        </div><!-- /.col -->
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="<?= base_url('/user'); ?>">Home</a></li>
+                                <li class="breadcrumb-item active"><?= $title; ?></li>
+                            </ol>
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                </div><!-- /.container-fluid -->
+            </div>
+            <!-- /.content-header -->
+
+            <!-- isi content -->
+            <?= $this->renderSection('content'); ?>
+
+        </div>
 
 
 
         <!-- /.content-wrapper -->
         <footer class="main-footer">
-            <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
+            <strong>Copyright &copy; <a href="www.fisiartsolution.com">Fisiartsolution</a> Supported By <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
             All rights reserved.
-            <div class="float-right d-none d-sm-inline-block">
+            <!-- <div class="float-right d-none d-sm-inline-block">
                 <b>Version</b> 3.0.5
-            </div>
+            </div> -->
         </footer>
 
         <!-- Control Sidebar -->
@@ -92,6 +113,15 @@
     <script src="<?= base_url(); ?>/asset/dist/js/pages/dashboard.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="<?= base_url(); ?>/asset/dist/js/demo.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // menambahkan kelas aktif di sidebar
+            let tes = $(".sub_menu.active").parent().parent().prev().addClass('active')
+
+        });
+    </script>
+
 </body>
 
 </html>

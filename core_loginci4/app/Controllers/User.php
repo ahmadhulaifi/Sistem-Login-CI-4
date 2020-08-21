@@ -22,7 +22,7 @@ class User extends BaseController
         $cekuser = $this->userModel->cekuser($_SESSION['email']);
 
         $data = [
-            'title' => 'Dashboard | Fisiartsolution',
+            'title' => 'Dashboard',
             'user' => $cekuser
         ];
 

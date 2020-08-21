@@ -45,9 +45,10 @@
                         Edit Profil (lom setting)
                     </a>
                     <div class="dropdown-divider"></div>
-                    <a href="<?= base_url(); ?>/logout" class="dropdown-item btn btn-outline-dark ">
+                    <a href="<?= base_url(); ?>/logout" class="dropdown-item btn btn-outline-dark" data-toggle="modal" data-target="#logoutModal">
                         Logout
                     </a>
+
                 </center>
             </div>
         </li>
@@ -85,75 +86,69 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-                <a href="#" class="nav-link active">
-                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                with font-awesome or any other icon font library -->
+                <!-- <li class="nav-header">Admin</li> -->
+                <a href="<?= base_url('/user'); ?>" class="nav-link <?php echo ($title == 'Dashboard') ? 'active' : '' ?>">
+                    <i class="nav-icon fas fa-fw fa-tachometer-alt"></i>
                     <p>
                         Dashboard
                     </p>
                 </a>
-                <li class="nav-item has-treeview">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-user"></i>
-                        <p>
-                            User
-                            <i class="fas fa-angle-left right"></i>
-                            <!-- <span class="badge badge-info right">6</span> -->
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="pages/layout/top-nav.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Top Navigation</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Top Navigation + Sidebar</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/layout/boxed.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Boxed</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/layout/fixed-sidebar.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Fixed Sidebar</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/layout/fixed-topnav.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Fixed Navbar</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/layout/fixed-footer.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Fixed Footer</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/layout/collapsed-sidebar.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Collapsed Sidebar</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <a href="<?= base_url('/logout'); ?>" class="nav-link">
+
+                <?php
+                $db = \Config\Database::connect();
+                // $builder = $db->table('users');
+
+                $role_id = $_SESSION['role_id'];
+
+                $querymenu = $db->table('user_menu')->select('user_menu.id,menu,icon')->join('user_access_menu', 'user_menu.id = user_access_menu.menu_id')->where('user_access_menu.role_id', $role_id)->orderBy('user_access_menu.menu_id', 'ASC')->get()->getResultArray();
+
+                ?>
+
+                <!-- looping menu  -->
+                <?php foreach ($querymenu as $m) : ?>
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon <?= $m['icon']; ?>"></i>
+                            <p>
+                                <?= $m['menu']; ?>
+                                <i class="fas fa-angle-left right"></i>
+                                <!-- <span class="badge badge-info right">6</span> -->
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview nav-pills nav-fill">
+
+                            <!-- siapkan sub menu sesuai menu -->
+
+                            <?php
+
+                            $menuid = $m['id'];
+
+                            $querysubmenu = $db->table('user_sub_menu')->select('user_sub_menu.id,user_sub_menu.sub_menu,user_sub_menu.url,user_sub_menu.icon,user_sub_menu.is_active')->join('user_menu', 'user_sub_menu.menu_id = user_menu.id')->where('user_sub_menu.menu_id', $menuid)->where('user_sub_menu.is_active', 1)->orderBy('user_sub_menu.menu_id', 'ASC')->get()->getResultArray();
+                            ?>
+
+                            <?php foreach ($querysubmenu as $sm) : ?>
+
+                                <li class="nav-item">
+                                    <a href="<?= base_url($sm['url']); ?>" class="sub_menu nav-link <?php echo ($title == $sm['sub_menu']) ? 'active' : '' ?>">
+                                        <i class="<?= $sm['icon']; ?>"></i>
+                                        <p><?= $sm['sub_menu']; ?></p>
+                                    </a>
+                                </li>
+                            <?php endforeach; ?>
+
+                        </ul>
+                    </li>
+
+                <?php endforeach; ?>
+
+
+                <a href="" class="nav-link" data-toggle="modal" data-target="#logoutModal">
                     <i class="nav-icon fas fa-sign-out-alt"></i>
                     <p>
                         Logout
                     </p>
                 </a>
-
-                <!-- <li class="nav-header">EXAMPLES</li> -->
 
             </ul>
         </nav>
@@ -161,3 +156,25 @@
     </div>
     <!-- /.sidebar -->
 </aside>
+
+
+<!-- Modal -->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="logoutModalLabel">Logout</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Yakin ingin Logout?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <a href="<?= base_url(); ?>/logout" type="button" class="btn btn-danger">Yes</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -41,6 +41,7 @@ $routes->post('/login/cek', 'Login::cekLogin');
 
 $routes->get('/user', 'User::index');
 $routes->get('/logout', 'Login::logout');
+$routes->get('/menu', 'Menu::index');
 /**
  * --------------------------------------------------------------------
  * Additional Routing
