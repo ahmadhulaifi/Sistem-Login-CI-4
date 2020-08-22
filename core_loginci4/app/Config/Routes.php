@@ -40,12 +40,15 @@ $routes->get('/login/reg', 'Login::register');
 $routes->get('/login/lupa', 'Login::lupaPassword');
 $routes->post('/login/save', 'Login::saveRegister');
 $routes->post('/login/cek', 'Login::cekLogin');
-
 $routes->get('/logout', 'Login::logout');
+
+$routes->get('/user', 'User::index', ['filter' => 'ceklogindulu']);
+
 $routes->get('/menu', 'Menu::index', ['filter' => 'ceklogindulu']);
 $routes->get('/menu/submenu', 'Menu::submenu', ['filter' => 'ceklogindulu']);
-$routes->get('/user', 'User::index', ['filter' => 'ceklogindulu']);
-// $routes->get('/logout', 'Login::logout', ['filter' => 'ceklogin']);
+$routes->get('/menu/role', 'Menu::role', ['filter' => 'ceklogindulu']);
+$routes->post('/menu/saveRole', 'Menu::saveRole', ['filter' => 'ceklogindulu']);
+$routes->get('/menu/roleakses/(:num)', 'Menu::roleAkses/$1', ['filter' => 'ceklogindulu']);
 /**
  * --------------------------------------------------------------------
  * Additional Routing

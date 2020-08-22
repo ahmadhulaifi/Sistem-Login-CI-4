@@ -119,6 +119,22 @@
             // menambahkan kelas aktif di sidebar
             let tes = $(".sub_menu.active").parent().parent().prev().addClass('active')
 
+            $('.form-check-input.akses').on('click', function() {
+                let menuId = $(this).data('menu');
+                let roleId = $(this).data('role');
+
+                $.ajax({
+                    url: "<?= base_url('menu/gantiakses'); ?>",
+                    type: "post",
+                    data: {
+                        menuId: menuId,
+                        roleId: roleId
+                    },
+                    success: function() {
+                        document.location.href = "<?= base_url('/menu/roleakses'); ?>" + "/" + roleId;
+                    }
+                });
+            });
         });
     </script>
 

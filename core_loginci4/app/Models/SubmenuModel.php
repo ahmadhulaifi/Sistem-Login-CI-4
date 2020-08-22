@@ -28,4 +28,13 @@ class SubmenuModel extends Model
 
         return $query;
     }
+
+    public function deletesub($id)
+    {
+        $builder = $this->table($this->table);
+        $builder->where('id', $id);
+        $result = $builder->delete();
+
+        return $result;
+    }
 }

@@ -4,12 +4,13 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class MenuModel extends Model
+class RoleModel extends Model
 {
-    protected $table      = 'user_menu';
-
+    protected $table = 'user_role';
+    protected $table2 = 'user_access_menu';
     // protected $useTimestamps = true;
-    protected $allowedFields = ['menu', 'icon'];
+    protected $allowedFields = ['role'];
+
 
     // protected $primaryKey = 'id_user';
 
@@ -20,5 +21,6 @@ class MenuModel extends Model
     // protected $validationRules    = [];
     // protected $validationMessages = [];
     // protected $skipValidation     = false;
+
 
 }
