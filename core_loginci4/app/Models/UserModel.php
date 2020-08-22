@@ -25,6 +25,7 @@ class UserModel extends Model
 
     public function cekuser($email)
     {
+
         $hasil = $this->table($this->table)->where('email', $email)->get()->getRowArray();
 
         return $hasil;

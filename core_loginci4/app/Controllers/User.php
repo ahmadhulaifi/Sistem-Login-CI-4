@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Controllers;
 
 use App\Models\UserModel;
@@ -12,6 +13,7 @@ class User extends BaseController
 
     public function __construct()
     {
+
         $this->userModel = new UserModel();
     }
 
@@ -19,8 +21,8 @@ class User extends BaseController
     public function index()
     {
 
-        $cekuser = $this->userModel->cekuser($_SESSION['email']);
-
+        // $cekuser = $this->userModel->cekuser(session('email'));
+        $cekuser = $this->userModel->cekuser(session('email'));
         $data = [
             'title' => 'Dashboard',
             'user' => $cekuser

@@ -16,6 +16,8 @@ class Menu extends BaseController
 
     public function __construct()
     {
+
+
         $this->userModel = new UserModel();
         $this->menuModel = new MenuModel();
         $this->submenuModel = new SubmenuModel();
@@ -24,7 +26,7 @@ class Menu extends BaseController
     public function index()
     {
 
-        $cekuser = $this->userModel->cekuser($_SESSION['email']);
+        $cekuser = $this->userModel->cekuser(session('email'));
 
         $me = $this->menuModel->findAll();
         $data = [
@@ -70,7 +72,7 @@ class Menu extends BaseController
 
     public function submenu()
     {
-        $cekuser = $this->userModel->cekuser($_SESSION['email']);
+        $cekuser = $this->userModel->cekuser(session('email'));
 
 
         $submenu = $this->submenuModel->getSubMenu();
@@ -81,10 +83,78 @@ class Menu extends BaseController
             'title' => 'Submenu Management',
             'user' => $cekuser,
             'submenu' => $submenu,
-            'menu' => $menu
+            'menu' => $menu,
+            'validation' => \Config\Services::validation()
         ];
 
-
         return view('admin/menu/submenu', $data);
+    }
+
+    public function saveSubmenu()
+    {
+        $cekuser = $this->userModel->cekuser($_SESSION['email']);
+        $submenu = $this->submenuModel->getSubMenu();
+        $menu = $this->menuModel->findAll();
+
+        $data = [
+            'title' => 'Submenu Management',
+            'user' => $cekuser,
+            'submenu' => $submenu,
+            'menu' => $menu,
+            'validation' => \Config\Services::validation()
+        ];
+
+        if (!$this->validate([
+            'submenu' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Submenu tidak boleh kosong'
+                ]
+            ],
+            'menu_id' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Menu tidak boleh kosong'
+                ]
+            ],
+            'url' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Url tidak boleh kosong'
+                ]
+            ],
+            'icon' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Icon tidak boleh kosong'
+                ]
+            ]
+        ])) {
+            $validation = \Config\Services::validation();
+
+
+            session()->setFlashdata('pesanError', $data['validation']->listErrors());
+            return redirect()->to(base_url('menu/submenu'))->withInput()->with('validation', $validation);
+        } else {
+            // validasi sub menu sukses
+            $submenu = $this->request->getVar('submenu');
+            $menu_id = $this->request->getVar('menu_id');
+            $url = $this->request->getVar('url');
+            $icon = $this->request->getVar('icon');
+            $is_active = $this->request->getVar('is_active');
+
+            $insert = [
+                'sub_menu' => $submenu,
+                'menu_id' => $menu_id,
+                'url' => $url,
+                'icon' => $icon,
+                'is_active' => $is_active
+            ];
+
+
+            session()->setFlashdata('pesan', 'Menu Berhasil ditambah');
+            $this->submenuModel->insert($insert);
+            return redirect()->to(base_url('/menu/submenu'));
+        }
     }
 }

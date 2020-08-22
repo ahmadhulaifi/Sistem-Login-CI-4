@@ -1,7 +1,7 @@
 <?= $this->extend('layout/template_user'); ?>
 
 <?= $this->section('content'); ?>
-<?php $validation = \Config\Services::validation(); ?>
+
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
@@ -11,6 +11,12 @@
                 <?php if (session()->getFlashdata('pesan')) : ?>
                     <div class="alert alert-success" role="alert">
                         <?= session()->getFlashdata('pesan'); ?>
+                    </div>
+                <?php endif; ?>
+
+                <?php if (session()->getFlashdata('pesanError')) : ?>
+                    <div class="alert alert-danger" role="alert">
+                        <?= session()->getFlashdata('pesanError'); ?>
                     </div>
                 <?php endif; ?>
 
@@ -76,7 +82,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="<?= base_url('/menu/addmenu'); ?>" method="POST">
+            <form action="<?= base_url('/menu/saveSubmenu'); ?>" method="POST">
                 <?= csrf_field(); ?>
                 <div class="modal-body">
                     <div class="form-group row">
@@ -89,11 +95,11 @@
                     <div class="form-group row">
                         <label for="validationCustom04" class="col-sm-2 col-form-label">Menu</label>
                         <div class="col-sm-10">
-                            <select class="custom-select" id="validationCustom04">
+                            <select class="custom-select" id="validationCustom04" name="menu_id">
                                 <option selected disabled value="">Pilih Menu</option>
 
                                 <?php foreach ($menu as $me) : ?>
-                                    <option><?= $me['menu']; ?></option>
+                                    <option value="<?= $me['id']; ?>"><?= $me['menu']; ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
@@ -111,7 +117,7 @@
                         </div>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="is_active" name="is_active">
+                        <input class="form-check-input" type="checkbox" value="1" id="is_active" name="is_active" checked>
                         <label class="form-check-label" for="is_active">
                             Aktif?
                         </label>

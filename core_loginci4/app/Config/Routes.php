@@ -17,7 +17,7 @@ if (file_exists(SYSTEMPATH . 'Config/Routes.php')) {
  * --------------------------------------------------------------------
  */
 $routes->setDefaultNamespace('App\Controllers');
-$routes->setDefaultController('Home');
+$routes->setDefaultController('Login');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
 $routes->set404Override();
@@ -33,15 +33,19 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 
 // $routes->get('/', 'Home::index');
+
 $routes->get('/', 'Login::index');
+$routes->get('/login', 'Login::index');
 $routes->get('/login/reg', 'Login::register');
 $routes->get('/login/lupa', 'Login::lupaPassword');
 $routes->post('/login/save', 'Login::saveRegister');
 $routes->post('/login/cek', 'Login::cekLogin');
 
-$routes->get('/user', 'User::index');
 $routes->get('/logout', 'Login::logout');
-$routes->get('/menu', 'Menu::index');
+$routes->get('/menu', 'Menu::index', ['filter' => 'ceklogindulu']);
+$routes->get('/menu/submenu', 'Menu::submenu', ['filter' => 'ceklogindulu']);
+$routes->get('/user', 'User::index', ['filter' => 'ceklogindulu']);
+// $routes->get('/logout', 'Login::logout', ['filter' => 'ceklogin']);
 /**
  * --------------------------------------------------------------------
  * Additional Routing

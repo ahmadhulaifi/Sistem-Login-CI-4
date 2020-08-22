@@ -99,7 +99,7 @@
                 $db = \Config\Database::connect();
                 // $builder = $db->table('users');
 
-                $role_id = $_SESSION['role_id'];
+                $role_id = session('role_id');
 
                 $querymenu = $db->table('user_menu')->select('user_menu.id,menu,icon')->join('user_access_menu', 'user_menu.id = user_access_menu.menu_id')->where('user_access_menu.role_id', $role_id)->orderBy('user_access_menu.menu_id', 'ASC')->get()->getResultArray();
 

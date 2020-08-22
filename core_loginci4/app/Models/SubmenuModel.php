@@ -9,7 +9,8 @@ class SubmenuModel extends Model
     protected $table = 'user_sub_menu';
 
     // protected $useTimestamps = true;
-    protected $allowedFields = ['menu', 'icon'];
+    protected $allowedFields = ['sub_menu', 'menu_id', 'url', 'icon', 'is_active'];
+
 
     // protected $primaryKey = 'id_user';
 

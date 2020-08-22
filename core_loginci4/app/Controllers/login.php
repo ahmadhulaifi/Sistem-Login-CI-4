@@ -201,4 +201,9 @@ class Login extends BaseController
         session()->setFlashdata('pesan', 'Anda berhasil logout.');
         return redirect()->to(base_url('/login'));
     }
+
+    public function block()
+    {
+        return view('block');
+    }
 }
