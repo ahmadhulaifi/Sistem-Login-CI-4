@@ -30,6 +30,8 @@ class Menu extends BaseController
         $this->aksesModel = new AksesModel();
     }
 
+
+    // controller menu
     public function index()
     {
 
@@ -77,6 +79,48 @@ class Menu extends BaseController
         }
     }
 
+    public function deletemenu($id)
+    {
+        $this->menuModel->where('id', $id)->delete();
+        $this->submenuModel->where('menu_id', $id)->delete();
+        $this->roleModel->where('menu_id', $id)->delete();
+
+        session()->setFlashdata('pesan', 'Menu berhasil dihapus');
+        return redirect()->to(base_url('/menu'));
+    }
+
+    public function editmenu($id)
+    {
+        if (!$this->validate([
+            'tambahMenu' => [
+                'rules' => 'required|is_unique[user_menu.menu]',
+                'errors' => [
+                    'required' => 'Menu tidak boleh kosong',
+                    'is_unique' => 'Data Menu sudah ada'
+                ]
+            ]
+        ])) {
+            $validation = \Config\Services::validation();
+
+            return redirect()->to(base_url('/menu'))->withInput()->with('validation', $validation);
+        } else {
+            // validasi sukses
+            $menu = $this->request->getVar('tambahMenu');
+            $icon = $this->request->getVar('menuIcon');
+            $update = [
+                'menu' => $menu,
+                'icon' => $icon
+            ];
+
+
+            session()->setFlashdata('pesan', 'Menu Berhasil ditambah');
+            $this->menuModel->update($id, $update);
+            return redirect()->to(base_url('/menu'));
+        }
+    }
+
+
+    // controller submenu
     public function submenu()
     {
 
@@ -173,6 +217,77 @@ class Menu extends BaseController
         return redirect()->to(base_url('/menu/submenu'));
     }
 
+    public function editsub($id)
+    {
+        $cekuser = $this->userModel->cekuser(session('email'));
+        $submenu = $this->submenuModel->getSubMenu();
+        $menu = $this->menuModel->findAll();
+
+        $data = [
+            'title' => 'Submenu Management',
+            'user' => $cekuser,
+            'submenu' => $submenu,
+            'menu' => $menu,
+            'validation' => \Config\Services::validation()
+        ];
+
+        if (!$this->validate([
+            'submenu' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Submenu tidak boleh kosong'
+                ]
+            ],
+            'menu_id' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Menu tidak boleh kosong'
+                ]
+            ],
+            'url' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Url tidak boleh kosong'
+                ]
+            ],
+            'icon' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Icon tidak boleh kosong'
+                ]
+            ]
+        ])) {
+            $validation = \Config\Services::validation();
+
+
+            session()->setFlashdata('pesanError', $data['validation']->listErrors());
+            return redirect()->to(base_url('/menu/submenu'))->withInput()->with('validation', $validation);
+        } else {
+            // validasi sub menu sukses
+            $submenu = $this->request->getVar('submenu');
+            $menu_id = $this->request->getVar('menu_id');
+            $url = $this->request->getVar('url');
+            $icon = $this->request->getVar('icon');
+            $is_active = $this->request->getVar('is_active');
+
+            $update = [
+                'sub_menu' => $submenu,
+                'menu_id' => $menu_id,
+                'url' => $url,
+                'icon' => $icon,
+                'is_active' => $is_active
+            ];
+
+
+            session()->setFlashdata('pesan', 'Sub menu berhasil diupdate');
+            $this->submenuModel->update($id, $update);
+            // $this->submenuModel->insert($insert);
+            return redirect()->to(base_url('/menu/submenu'));
+        }
+    }
+
+
+    // controller role management
     public function role()
     {
         $cekuser = $this->userModel->cekuser(session('email'));

@@ -36,11 +36,41 @@
                                 <th scope="row"><?= $i; ?></th>
                                 <td><?= $m['menu']; ?></td>
                                 <td>
-                                    <a href="#" class="badge badge-success">Edit</a>
-                                    <a href="#" class="badge badge-danger">Delete</a>
+                                    <a href="" class="badge badge-success" data-toggle="modal" data-target="#editMenuModal<?= $m['id']; ?>">Edit</a>
+                                    <a href="<?= base_url('menu/deletemenu'); ?>/<?= $m['id']; ?>" class="badge badge-danger">Delete</a>
                                 </td>
                             </tr>
                             <?php $i++ ?>
+
+                            <!-- Modal Edit menu -->
+                            <div class="modal fade" id="editMenuModal<?= $m['id']; ?>" tabindex="-1" aria-labelledby="editMenuModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="newMenuModalLabel">Edit Menu</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form action="<?= base_url('/menu/editmenu'); ?>/<?= $m['id']; ?>" method="POST">
+                                            <?= csrf_field(); ?>
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="tambahMenu" name="tambahMenu" placeholder="Menu Name" value="<?= $m['menu']; ?>">
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="menuIcon" name="menuIcon" placeholder="Menu Icon" value="<?= $m['icon']; ?>">
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary">Save changes</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
                         <?php endforeach; ?>
                     </tbody>
                 </table>

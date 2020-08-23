@@ -40,7 +40,9 @@
                                     <td>
                                         <a href="<?= base_url('/menu/roleakses/' . $r["id"]); ?>" class="badge badge-warning">Akses</a>
                                         <a href="#" class="badge badge-success">Edit</a>
-                                        <a href="#" class="badge badge-danger">Delete</a>
+                                        <?php if ($r['role'] != 'Admin') : ?>
+                                            <a href="#" class="badge badge-danger">Delete</a>
+                                        <?php endif; ?>
                                     </td>
                                 </tr>
                                 <?php $i++ ?>

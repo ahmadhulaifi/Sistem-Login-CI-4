@@ -164,7 +164,7 @@ class Login extends BaseController
                 'email' => $this->request->getVar('email'),
                 'password' => password_hash($this->request->getVar('password'), PASSWORD_DEFAULT),
                 'role_id' => 1,
-                'is_active' => 0,
+                'is_active' => 1,
                 'image' => 'default.png'
             ];
 

@@ -45,10 +45,13 @@ $routes->get('/logout', 'Login::logout');
 $routes->get('/user', 'User::index', ['filter' => 'ceklogindulu']);
 
 $routes->get('/menu', 'Menu::index', ['filter' => 'ceklogindulu']);
+$routes->get('/menu/editmenu/(:num)', 'Menu::editmenu/$1', ['filter' => 'ceklogindulu']);
 $routes->get('/menu/submenu', 'Menu::submenu', ['filter' => 'ceklogindulu']);
+$routes->get('/menu/editsub', 'Menu::editsub/$1', ['filter' => 'ceklogindulu']);
 $routes->get('/menu/role', 'Menu::role', ['filter' => 'ceklogindulu']);
 $routes->post('/menu/saveRole', 'Menu::saveRole', ['filter' => 'ceklogindulu']);
 $routes->get('/menu/roleakses/(:num)', 'Menu::roleAkses/$1', ['filter' => 'ceklogindulu']);
+$routes->get('/menu/deletemenu/(:num)', 'Menu::deletemenu/$1', ['filter' => 'ceklogindulu']);
 /**
  * --------------------------------------------------------------------
  * Additional Routing

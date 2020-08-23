@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class RoleModel extends Model
 {
     protected $table = 'user_role';
-    protected $table2 = 'user_access_menu';
+
     // protected $useTimestamps = true;
     protected $allowedFields = ['role'];
 

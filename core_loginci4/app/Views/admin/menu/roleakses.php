@@ -33,17 +33,19 @@
                             <?php $i = 1 ?>
                             <?php foreach ($menu as $m) : ?>
                                 <?php $mem = $member['role_id'] ?>
-                                <tr>
-                                    <th scope="row"><?= $i; ?></th>
-                                    <td><?= $m['menu']; ?></td>
-                                    <td>
-                                        <div class="form-check">
-                                            <input class="form-check-input akses" type="checkbox" data-role="<?= $mem; ?>" data-menu="<?= $m['id']; ?>" value="" id="akses" <?= checkaccess($mem, $m['id']); ?>>
-                                            </label>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <?php $i++ ?>
+                                <?php if ($member['role'] != 'Admin' || $m['menu'] != 'Menu') : ?>
+                                    <tr>
+                                        <th scope="row"><?= $i; ?></th>
+                                        <td><?= $m['menu']; ?></td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input akses" type="checkbox" data-role="<?= $mem; ?>" data-menu="<?= $m['id']; ?>" value="" id="akses" <?= checkaccess($mem, $m['id']); ?>>
+                                                </label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <?php $i++ ?>
+                                <?php endif; ?>
                             <?php endforeach; ?>
                         </tbody>
                     </table>

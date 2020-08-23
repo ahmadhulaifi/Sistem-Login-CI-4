@@ -24,7 +24,7 @@ class SubmenuModel extends Model
 
     public function getSubMenu()
     {
-        $query = $this->table($this->table)->select('user_sub_menu.id,user_sub_menu.sub_menu,menu,url,user_sub_menu.icon,is_active')->join('user_menu', 'user_sub_menu.menu_id = user_menu.id')->get()->getResultArray();
+        $query = $this->table($this->table)->select('user_sub_menu.id,user_sub_menu.menu_id,user_sub_menu.sub_menu,menu,url,user_sub_menu.icon,is_active')->join('user_menu', 'user_sub_menu.menu_id = user_menu.id')->get()->getResultArray();
 
         return $query;
     }
